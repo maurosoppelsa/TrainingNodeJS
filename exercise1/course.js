@@ -1,0 +1,23 @@
+/**
+ * Created by mauro.soppelsa on 21/04/16.
+ */
+function Course(name,minimum_avg_grade){
+    this.name = name;
+    this.students = [];
+    this.teacher = {};
+    this.minimum_avg_grade = minimum_avg_grade;
+}
+
+Course.prototype = {
+ setTacher:function(teacher){
+    this.teacher = teacher.getName();
+ },
+ addStudent:function(student){
+    this.students.push(student);
+ },
+ removeStudent:function(student){
+    this.students.remove(student);
+ }
+};
+
+module.exports.Course= Course;
