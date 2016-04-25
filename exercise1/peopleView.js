@@ -17,6 +17,7 @@ function NewPersonView(person,type){
             friends:result.friends,
             type:type
         }
+        console.log("New " +person.type+ " added:\n");
         console.log(person);
         return person;
     });
