@@ -70,7 +70,6 @@ function init(){
                 course.name = readlineSync.question("course name:");
                 course.minimum_avg_grade=readlineSync.question("minimum average:");
                 courseList.push(MenuOptions.addNewCourse(course));
-                console.log(courseList);
                 console.log("New course added:");
                 console.log("..."+course.name+"...\n");
                 break;

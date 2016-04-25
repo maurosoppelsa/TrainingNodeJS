@@ -6,7 +6,8 @@ var Teacher = require('./teacher').Teacher;
 var Course = require('./course').Course;
 var MenuOptions= {
     createNewStudent:function (student) {
-        console.log(student.id);
+        console.log("student menu options");
+        console.log(student);
         return new Student(student.id,student.name, student.address, student.brirth_date, student.friends);
     },
     createNewTeacher:function (name, address, birth_date, friends) {
@@ -30,9 +31,6 @@ var MenuOptions= {
 
     },
     addNewCourse:function(course){
-        console.log("menu option");
-        console.log(course);
-        console.log(course.id);
         return new Course(course.id,course.name,course.minimum_avg_grade);
     }
 
