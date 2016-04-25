@@ -1,61 +1,34 @@
 var MenuOptions = require('./menu-options').MenuOptions;
 var personView = require('./peopleView').NewPersonView;
 var prompt = require('prompt');
-
-var selectOptionMessage = function(){
-    console.log("Select an option:\n" +
-    "1­ Create a new student\n" +
-    "2­ Create a new teacher\n" +
-    "3­ Enroll student to a course\n" +
-    "4­ Get teacher to teach a course\n" +
-    "5­ Exit");
-};
+var readlineSync = require('readline-sync');
 
 var invalidOption = function(){
     console.log("The Option selected is invalid, please try again:\n");
 };
 var stdin = process.openStdin();
-var keyOption;
-var onWorkingFlag=false;
+var onWorkingFlag=true;
+var studentsLists=[];
 
 function init(){
 
-    selectOptionMessage();
+    do{
+        var keyOption = readlineSync.question("Select an option:\n" +
+        "1­ Create a new student\n" +
+        "2­ Create a new teacher\n" +
+        "3­ Enroll student to a course\n" +
+        "4­ Get teacher to teach a course\n" +
+        "5­ Exit\n");
 
-    prompt.start();
-
-    prompt.get(['key'], function (err, result) {
-        if (err) { return onErr(err); }
-
-        keyOption = result.key;
-
-        console.log(keyOption);
-
-        return keyOption;
-    });
-
-    function onErr(err) {
-        console.log(err);
-        return 1;
-    }
-
-/*
-    var stdin = process.openStdin();
-
-    stdin.addListener("data", function(d) {
-
-            keyOption = d.toString().trim();
         switch(keyOption){
             case "1":
-                stdin.removeAllListeners('data');
 
-                var studentsLists=[];
                 var student={};
 
                 console.log('***New Student***');
-                personView(student,'student');
-
+                student = personView('student');
                 studentsLists.push(MenuOptions.createNewStudent(student));
+                console.log(studentsLists);
                 break;
             case "2":
                 stdin.removeAllListeners('data');
@@ -68,8 +41,16 @@ function init(){
                 teacherLists.push(MenuOptions.createNewTeacher(teacher));
                 break;
             case "3":
+                var studentSelect;
                 console.log('***Enroll Students***');
-                MenuOptions.enrollStudent();
+                console.log("Select the student you want to enroll:\n");
+                for(var i= 0;i<=studentsLists.length;i++){
+                    console.log(studentsLists[i]);
+                    console.log(i+"-"+studentsLists[i]+"\n");
+                    studentSelect = readlineSync.question("");
+                }
+
+                MenuOptions.enrollStudent(studentsLists[studentSelect]);
                 break;
             case "4":
                 console.log('4­Teach a Course');
@@ -83,8 +64,9 @@ function init(){
                 selectOptionMessage();
                 break;
         }
-    });
-*/
+
+    }while(onWorkingFlag);
+
 
 };
 

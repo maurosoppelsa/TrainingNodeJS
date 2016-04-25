@@ -9,6 +9,7 @@ var Person = require('./person').Person;
             courseName:'',
             grade:0
         };
+        this.current_course=[];
         Person.name = name;
         Person.address = address;
         Person.birth_date = birth_date;
@@ -18,7 +19,7 @@ var Person = require('./person').Person;
  Student.prototype = Object.create(Person.prototype);
 
  Student.prototype.enrollToCourse = function(course){
-
+    this.current_course.push(course);
  };
 
  Student.prototype.leaveCourse = function(course){

@@ -1,31 +1,19 @@
-var prompt = require('prompt');
+var readlineSync = require('readline-sync');
 
-var person1={};
 var moreFriendsFlag=true;
+var person={};
+function NewPersonView(type){
 
-function NewPersonView(person,type){
+    person.name = readlineSync.question("Name:\n");
+    person.address = readlineSync.question("Address:\n");
+    person.brirth_date = readlineSync.question("Birth date:\n");
+    person.friends = readlineSync.question("Friends:\n");
 
-    prompt.start();
+    console.log("A new " +type+" was created:\n");
+    console.log(person);
+    console.log("\n");
 
-    prompt.get(['name', 'address','birth_date','friends'], function (err, result) {
-        if (err) { return onErr(err); }
-
-        person={
-            name:result.name,
-            address:result.address,
-            birth_date:result.birth_date,
-            friends:result.friends,
-            type:type
-        }
-        console.log("New " +person.type+ " added:\n");
-        console.log(person);
-        return person;
-    });
-
-    function onErr(err) {
-        console.log(err);
-        return 1;
-    }
+    return person;
 }
 
 module.exports.NewPersonView = NewPersonView;
