@@ -4,10 +4,9 @@
 var Student = require('./student').Student;
 var Teacher = require('./teacher').Teacher;
 var Course = require('./course').Course;
-
 var MenuOptions= {
     createNewStudent:function (student) {
-        return new Student(student.name, student.address, student.brirth_date, student.friends);
+        return new Student(student.id,student.name, student.address, student.brirth_date, student.friends);
     },
     createNewTeacher:function (name, address, birth_date, friends) {
         this.Teacher = new Teacher(name, address, birth_date, friends);
@@ -20,8 +19,8 @@ var MenuOptions= {
             }
         };
     },
-    enrollStudent:function(Student,Course){
-        Student.enrollToCourse(Course);
+    enrollStudent:function(StudentId,CourseId){
+        Student.enrollToCourse(StudentId,CourseId);
         console.log("Course added:\n");
         console.log("This student currently are in the followings courses:\n");
         console.log(Student.current_course);

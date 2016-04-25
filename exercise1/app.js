@@ -1,5 +1,6 @@
 var MenuOptions = require('./menu-options').MenuOptions;
 var personView = require('./peopleView').NewPersonView;
+var Course = require('./course').Course;
 var prompt = require('prompt');
 var readlineSync = require('readline-sync');
 
@@ -9,6 +10,7 @@ var invalidOption = function(){
 var stdin = process.openStdin();
 var onWorkingFlag=true;
 var studentsLists=[];
+var counterId=0;
 
 function init(){
 
@@ -22,11 +24,11 @@ function init(){
 
         switch(keyOption){
             case "1":
-
+                counterId++;
                 var student={};
-
                 console.log('***New Student***');
                 student = personView('student');
+                student.id=counterId;
                 studentsLists.push(MenuOptions.createNewStudent(student));
                 console.log(studentsLists);
                 break;
@@ -41,16 +43,16 @@ function init(){
                 teacherLists.push(MenuOptions.createNewTeacher(teacher));
                 break;
             case "3":
-                var studentSelect;
+                var studentId;
+                var courseId;
                 console.log('***Enroll Students***');
-                console.log("Select the student you want to enroll:\n");
-                for(var i= 0;i<=studentsLists.length;i++){
-                    console.log(studentsLists[i]);
-                    console.log(i+"-"+studentsLists[i]+"\n");
-                    studentSelect = readlineSync.question("");
+                console.log("Select the student file and the course file in order to enroll:\n");
+                for(var i= 0;i<studentsLists.length;i++){
+                    console.log("("+studentsLists[i].id +")"+"-"+studentsLists[i].name+"\n");
                 }
-
-                MenuOptions.enrollStudent(studentsLists[studentSelect]);
+                studentId = readlineSync.question("student file:");
+                courseId = readlineSync.question("course file:");
+                MenuOptions.enrollStudent(studentsLists[studentId,courseId]);
                 break;
             case "4":
                 console.log('4­Teach a Course');
@@ -58,7 +60,7 @@ function init(){
             case "5":
                 console.log('5-5­ Exit');
                 console.log("-------------- HAVE A NICE DAY :) -----------------");
-                MenuOptions.ExitProgram();
+                MenuOptions.ExitProgram(0);
             default:
                 invalidOption();
                 selectOptionMessage();
@@ -66,8 +68,6 @@ function init(){
         }
 
     }while(onWorkingFlag);
-
-
 };
 
 init();

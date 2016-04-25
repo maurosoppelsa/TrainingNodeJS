@@ -1,19 +1,15 @@
 
 var Person = require('./person').Person;
 
-    function Student(name,address,birth_date,friends){
-        Person.call(this);
-        this.student_Id += this.student_Id;
+    function Student(studentId,name,address,birth_date,friends){
+        Person.call(this,name,address,birth_date,friends);
+        this.id = studentId;
         this.avg_grade=0;
         this.current_grades = {
             courseName:'',
             grade:0
         };
         this.current_course=[];
-        Person.name = name;
-        Person.address = address;
-        Person.birth_date = birth_date;
-        Person.friends= friends;
     }
 
  Student.prototype = Object.create(Person.prototype);

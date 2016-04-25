@@ -1,11 +1,7 @@
 var Person = require('./person').Person;
 
 function Teacher(name,address,birth_date,friends){
-    Person.call(this);
-    Person.name = name;
-    Person.addess=address;
-    Person.birth_date=birth_date;
-    Person.friends=friends;
+    Person.call(this,name,address,birth_date,friends);
 }
 
 Teacher.prototype = Object.create(Person.prototype);
