@@ -3,7 +3,7 @@ var Person = require('./person').Person;
 
     function Student(studentId,name,address,birth_date,friends){
         Person.call(this,name,address,birth_date,friends);
-        this.id = studentId;
+        this.id = 53    ;
         this.avg_grade=0;
         this.current_grades = {
             courseName:'',

@@ -33,7 +33,6 @@ function init(){
                 student = personView('student');
                 student.id=counterStId;
                 studentsList.push(MenuOptions.createNewStudent(student));
-                console.log(studentsList);
                 break;
             case "2":
                 var teacherLists=[];
@@ -47,15 +46,17 @@ function init(){
                 var courseId;
                 console.log('***Enroll Students***');
                 console.log("Select the student file and the course file in order to enroll:\n");
+                console.log("**Students**");
                 for(var i= 0;i<studentsList.length;i++){
                     console.log("("+studentsList[i].id +")"+"-"+studentsList[i].name+"\n");
+                }
+                console.log("**Courses**");
+                for(var i=0;i<courseList.length;i++){
                     console.log("("+courseList[i].id +")"+"-"+courseList[i].name+"\n");
                 }
                 studentId = readlineSync.question("student file:");
                 courseId = readlineSync.question("course file:");
-                var student = getStudentById(studentId);
-                var course = getCourseById(courseId);
-                MenuOptions.enrollStudent(student,course);
+                MenuOptions.enrollStudent(getStudentById(studentId),getCourseById(courseId));
                 break;
             case "4":
                 console.log('4­Teach a Course');
@@ -65,10 +66,11 @@ function init(){
                 counterCsId++;
                 var course={};
                 console.log("***Add new course***");
-                course.courseId=counterCsId;
+                course.id=counterCsId;
                 course.name = readlineSync.question("course name:");
-                course.avg_grade=readlineSync.question("minimum average:");
-                courseList.push(MenuOptions.addNewCourse(course.courseId,course.name,course.avg_grade));
+                course.minimum_avg_grade=readlineSync.question("minimum average:");
+                courseList.push(MenuOptions.addNewCourse(course));
+                console.log(courseList);
                 console.log("New course added:");
                 console.log("..."+course.name+"...\n");
                 break;
@@ -90,6 +92,7 @@ init();
 function getCourseById(id){
     for(var i=0;i<courseList.length;i++){
         if(courseList[i].id=id){
+            console.log(courseList[i]);
             return courseList[i];
         }
     }
@@ -97,6 +100,7 @@ function getCourseById(id){
 function getStudentById(id){
     for(var i=0;i<studentsList.length;i++){
         if(studentsList[i].id=id){
+            console.log(studentsList[i]);
             return studentsList[i];
         }
     }

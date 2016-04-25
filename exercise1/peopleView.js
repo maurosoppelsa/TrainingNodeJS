@@ -7,7 +7,7 @@ function NewPersonView(type){
     person.name = readlineSync.question("Name:");
     person.address = readlineSync.question("Address:");
     person.brirth_date = readlineSync.question("Birth date:");
-    person.friends = readlineSync.question("Friends:\n");
+    person.friends = readlineSync.question("Friends:");
 
     console.log("A new " +type+" was created:\n");
     console.log(person);
