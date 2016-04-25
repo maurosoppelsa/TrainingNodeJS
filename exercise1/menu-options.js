@@ -19,11 +19,14 @@ var MenuOptions= {
             }
         };
     },
-    enrollStudent:function(StudentId,CourseId){
-        Student.enrollToCourse(StudentId,CourseId);
+    enrollStudent:function(student,course){
+        student.enrollToCourse(course);
         console.log("Course added:\n");
         console.log("This student currently are in the followings courses:\n");
-        console.log(Student.current_course);
+        console.log(student.current_course);
+    },
+    addNewCourse:function(course){
+        return new Course(course.id,course.name,course.minimum_avg_grade);
     }
 
 };

@@ -1,7 +1,8 @@
 /**
  * Created by mauro.soppelsa on 21/04/16.
  */
-function Course(name,minimum_avg_grade){
+function Course(id,name,minimum_avg_grade){
+    this.id=id;
     this.name = name;
     this.students = [];
     this.teacher = {};

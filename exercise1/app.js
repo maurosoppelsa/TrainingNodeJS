@@ -9,8 +9,10 @@ var invalidOption = function(){
 };
 var stdin = process.openStdin();
 var onWorkingFlag=true;
-var studentsLists=[];
-var counterId=0;
+var studentsList=[];
+var courseList=[];
+var counterStId=0;
+var counterCsId=0;
 
 function init(){
 
@@ -20,24 +22,22 @@ function init(){
         "2­ Create a new teacher\n" +
         "3­ Enroll student to a course\n" +
         "4­ Get teacher to teach a course\n" +
-        "5­ Exit\n");
+        "5­ Add a new course\n" +
+        "6­ Exit\n");
 
         switch(keyOption){
             case "1":
-                counterId++;
+                counterStId++;
                 var student={};
                 console.log('***New Student***');
                 student = personView('student');
-                student.id=counterId;
-                studentsLists.push(MenuOptions.createNewStudent(student));
-                console.log(studentsLists);
+                student.id=counterStId;
+                studentsList.push(MenuOptions.createNewStudent(student));
+                console.log(studentsList);
                 break;
             case "2":
-                stdin.removeAllListeners('data');
-
                 var teacherLists=[];
                 var teacher={};
-
                 console.log('***New Teacher***');
                 personView(teacher,'teacher');
                 teacherLists.push(MenuOptions.createNewTeacher(teacher));
@@ -47,17 +47,32 @@ function init(){
                 var courseId;
                 console.log('***Enroll Students***');
                 console.log("Select the student file and the course file in order to enroll:\n");
-                for(var i= 0;i<studentsLists.length;i++){
-                    console.log("("+studentsLists[i].id +")"+"-"+studentsLists[i].name+"\n");
+                for(var i= 0;i<studentsList.length;i++){
+                    console.log("("+studentsList[i].id +")"+"-"+studentsList[i].name+"\n");
+                    console.log("("+courseList[i].id +")"+"-"+courseList[i].name+"\n");
                 }
                 studentId = readlineSync.question("student file:");
                 courseId = readlineSync.question("course file:");
-                MenuOptions.enrollStudent(studentsLists[studentId,courseId]);
+                var student = getStudentById(studentId);
+                var course = getCourseById(courseId);
+                MenuOptions.enrollStudent(student,course);
                 break;
             case "4":
                 console.log('4­Teach a Course');
                 MenuOptions.GetNewTeacher;
+                break;
             case "5":
+                counterCsId++;
+                var course={};
+                console.log("***Add new course***");
+                course.courseId=counterCsId;
+                course.name = readlineSync.question("course name:");
+                course.avg_grade=readlineSync.question("minimum average:");
+                courseList.push(MenuOptions.addNewCourse(course.courseId,course.name,course.avg_grade));
+                console.log("New course added:");
+                console.log("..."+course.name+"...\n");
+                break;
+            case "6":
                 console.log('5-5­ Exit');
                 console.log("-------------- HAVE A NICE DAY :) -----------------");
                 MenuOptions.ExitProgram(0);
@@ -71,3 +86,18 @@ function init(){
 };
 
 init();
+
+function getCourseById(id){
+    for(var i=0;i<courseList.length;i++){
+        if(courseList[i].id=id){
+            return courseList[i];
+        }
+    }
+}
+function getStudentById(id){
+    for(var i=0;i<studentsList.length;i++){
+        if(studentsList[i].id=id){
+            return studentsList[i];
+        }
+    }
+}

@@ -4,9 +4,9 @@ var moreFriendsFlag=true;
 var person={};
 function NewPersonView(type){
 
-    person.name = readlineSync.question("Name:\n");
-    person.address = readlineSync.question("Address:\n");
-    person.brirth_date = readlineSync.question("Birth date:\n");
+    person.name = readlineSync.question("Name:");
+    person.address = readlineSync.question("Address:");
+    person.brirth_date = readlineSync.question("Birth date:");
     person.friends = readlineSync.question("Friends:\n");
 
     console.log("A new " +type+" was created:\n");
