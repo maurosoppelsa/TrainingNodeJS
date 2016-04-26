@@ -6,20 +6,10 @@ var Teacher = require('./teacher').Teacher;
 var Course = require('./course').Course;
 var MenuOptions= {
     createNewStudent:function (student) {
-        console.log("student menu options");
-        console.log(student);
         return new Student(student.id,student.name, student.address, student.brirth_date, student.friends);
     },
-    createNewTeacher:function (name, address, birth_date, friends) {
-        this.Teacher = new Teacher(name, address, birth_date, friends);
-        return {
-            Teacher: {
-                name: this.Teacher.name,
-                address: this.Teacher.address,
-                age: this.Teacher.birth_date,
-                friends: this.Teacher.friends
-            }
-        };
+    createNewTeacher:function (teacher) {
+        return new Teacher(teacher.id,teacher.name, teacher.address, teacher.birth_date, teacher.friends);
     },
     enrollStudent:function(student,course){
         student.enrollToCourse(course);

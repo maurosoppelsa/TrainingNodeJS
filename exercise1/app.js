@@ -11,8 +11,10 @@ var stdin = process.openStdin();
 var onWorkingFlag=true;
 var studentsList=[];
 var courseList=[];
+var teacherLists=[];
 var counterStId=0;
 var counterCsId=0;
+var counterTchId=0;
 
 function init(){
 
@@ -35,10 +37,11 @@ function init(){
                 studentsList.push(MenuOptions.createNewStudent(student));
                 break;
             case "2":
-                var teacherLists=[];
+                counterTchId++;
                 var teacher={};
                 console.log('***New Teacher***');
-                personView(teacher,'teacher');
+                teacher.id=counterTchId;
+                personView('teacher');
                 teacherLists.push(MenuOptions.createNewTeacher(teacher));
                 break;
             case "3":
@@ -74,9 +77,9 @@ function init(){
                 console.log("..."+course.name+"...\n");
                 break;
             case "6":
-                console.log('5-5­ Exit');
+                console.log('***Exit***');
                 console.log("-------------- HAVE A NICE DAY :) -----------------");
-                MenuOptions.ExitProgram(0);
+                process.exit();
             default:
                 invalidOption();
                 selectOptionMessage();
@@ -90,7 +93,7 @@ init();
 
 function getCourseById(id){
     for(var i=0;i<courseList.length;i++){
-        if(courseList[i].id=id){
+        if(id==courseList[i].id){
             console.log(courseList[i]);
             return courseList[i];
         }
@@ -98,7 +101,7 @@ function getCourseById(id){
 }
 function getStudentById(id){
     for(var i=0;i<studentsList.length;i++){
-        if(studentsList[i].id=id){
+        if(id==studentsList[i].id){
             console.log(studentsList[i]);
             return studentsList[i];
         }
