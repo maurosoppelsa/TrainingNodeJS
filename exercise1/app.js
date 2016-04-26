@@ -65,7 +65,7 @@ function init(){
                 console.log('***Teach a Course***');
                 var teacherId;
                 var courseId;
-                console.log("Select the teacher file and the course file in order to teache a course:\n");
+                console.log("Select the teacher file and the course file in order to teach a course:\n");
                 console.log("**Teachers**");
                 for(var i= 0;i<teacherLists.length;i++){
                     console.log("("+teacherLists[i].id +")"+"-"+teacherLists[i].name+"\n");
