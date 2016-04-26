@@ -40,8 +40,8 @@ function init(){
                 counterTchId++;
                 var teacher={};
                 console.log('***New Teacher***');
+                teacher=personView('teacher');
                 teacher.id=counterTchId;
-                personView('teacher');
                 teacherLists.push(MenuOptions.createNewTeacher(teacher));
                 break;
             case "3":
@@ -62,8 +62,21 @@ function init(){
                 MenuOptions.enrollStudent(getStudentById(studentId),getCourseById(courseId));
                 break;
             case "4":
-                console.log('4­Teach a Course');
-                MenuOptions.GetNewTeacher;
+                console.log('***Teach a Course***');
+                var teacherId;
+                var courseId;
+                console.log("Select the teacher file and the course file in order to teache a course:\n");
+                console.log("**Teachers**");
+                for(var i= 0;i<teacherLists.length;i++){
+                    console.log("("+teacherLists[i].id +")"+"-"+teacherLists[i].name+"\n");
+                }
+                console.log("**Courses**");
+                for(var i=0;i<courseList.length;i++){
+                    console.log("("+courseList[i].id +")"+"-"+courseList[i].name+"\n");
+                }
+                teacherId = readlineSync.question("teacher file:");
+                courseId = readlineSync.question("course file:");
+                MenuOptions.teachingCourses(getTeacherById(teacherId),getCourseById(courseId));
                 break;
             case "5":
                 counterCsId++;
@@ -94,7 +107,6 @@ init();
 function getCourseById(id){
     for(var i=0;i<courseList.length;i++){
         if(id==courseList[i].id){
-            console.log(courseList[i]);
             return courseList[i];
         }
     }
@@ -102,8 +114,14 @@ function getCourseById(id){
 function getStudentById(id){
     for(var i=0;i<studentsList.length;i++){
         if(id==studentsList[i].id){
-            console.log(studentsList[i]);
             return studentsList[i];
+        }
+    }
+}
+function getTeacherById(id){
+    for(var i=0;i<teacherLists.length;i++){
+        if(id==teacherLists[i].id){
+            return teacherLists[i];
         }
     }
 }
