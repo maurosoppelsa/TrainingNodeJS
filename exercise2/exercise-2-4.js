@@ -23,6 +23,10 @@ var getJsonFile = function(){
     return JSON.parse(fs.readFileSync('user.json', 'utf8'));
 };
 
+var writeInFile = function(content){
+    fs.writeFileSync('user.json', JSON.stringify(content));
+};
+
 function getUserByName(name){
     var userList = getJsonFile();
     var response;
@@ -35,7 +39,29 @@ function getUserByName(name){
     deferred.resolve(response);
     return deferred.promise;
 }
+function updateUser(property,oldValue,newValue){
+    var userList = getJsonFile();
+    for(var i=0;i<userList.length;i++){
+        console.log(userList[i][property]);
+        if(userList[i][property]==oldValue){
+            userList[i][property]=newValue;
+        }
+    }
+    var write = writeInFile(userList);
+    var response = write;
+    var deferred = Q.defer();
+        deferred.resolve(response);
+          return deferred.promise;
+}
+
 getUserByName("Pedro").then(function(response){
     console.log(response);
+}).catch(function(error){
+    console.log(error);
 });
 
+updateUser("Name","Pedro","Ramiro").then(function(response){
+    console.log("update success");
+}).catch(function(error){
+    console.log("couldn't update file " +error);
+});
