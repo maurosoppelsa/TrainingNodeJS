@@ -16,15 +16,26 @@
  ● If you’re trying to create an existing user, you’ve to return the corresponding
  message.*/
 
-// readFileUsingPromises.js
-var FS = require('fs'),
-    Q = require('q');
 
-Q.nfcall(FS.readFile, "user.json", "utf-8")
-    .then(function(data) {
-        console.log('File has been read:', data);
-    })
-    .fail(function(err) {
-        console.error('Error received:', err);
-    })
-    .done();
+var fs = require('fs');
+var Q = require('q');
+var getJsonFile = function(){
+    return JSON.parse(fs.readFileSync('user.json', 'utf8'));
+};
+
+function getUserByName(name){
+    var userList = getJsonFile();
+    var response;
+    for(var i=0;i<userList.length;i++){
+        if(userList[i].Name===name){
+            response = userList[i];
+        }
+    }
+    var deferred = Q.defer();
+    deferred.resolve(response);
+    return deferred.promise;
+}
+getUserByName("Pedro").then(function(response){
+    console.log(response);
+});
+
