@@ -27,6 +27,16 @@ var writeInFile = function(content){
     fs.writeFileSync('user.json', JSON.stringify(content));
 };
 
+function createUser(name,lastName,age,dob){
+    var userList = getJsonFile();
+    userList.push(name,lastName,age,dob);
+    var write = writeInFile(userList);
+    var response = write;
+    var deferred = Q.defer();
+    deferred.resolve(response);
+    return deferred.promise;
+}
+
 function getUserByName(name){
     var userList = getJsonFile();
     var response;
@@ -42,7 +52,6 @@ function getUserByName(name){
 function updateUser(property,oldValue,newValue){
     var userList = getJsonFile();
     for(var i=0;i<userList.length;i++){
-        console.log(userList[i][property]);
         if(userList[i][property]==oldValue){
             userList[i][property]=newValue;
         }
@@ -54,7 +63,27 @@ function updateUser(property,oldValue,newValue){
           return deferred.promise;
 }
 
-getUserByName("Pedro").then(function(response){
+function deleteUser(name){
+    var userList = getJsonFile();
+    for(var i=0;i<userList.length;i++){
+        if(userList[i].Name===name){
+            userList.splice(i);
+        }
+    }
+    var write = writeInFile(userList);
+    var response = write;
+    var deferred = Q.defer();
+    deferred.resolve(response);
+    return deferred.promise;
+}
+
+createUser("Jorge","Sanchez","45","12/10/2005").then(function(){
+    console.log("User created");
+}).catch(function(error){
+    console.log("could not create user " + error);
+});
+
+/*getUserByName("Pedro").then(function(response){
     console.log(response);
 }).catch(function(error){
     console.log(error);
@@ -64,4 +93,11 @@ updateUser("Name","Pedro","Ramiro").then(function(response){
     console.log("update success");
 }).catch(function(error){
     console.log("couldn't update file " +error);
-});
+});*/
+/*
+
+deleteUser("Jorge").then(function(){
+    console.log("The user was deleted");
+}).catch(function(error){
+    console.log("Could not delete the user " +error);
+});*/
