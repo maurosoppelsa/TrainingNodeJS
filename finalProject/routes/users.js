@@ -26,8 +26,10 @@ router.use(methodOverride(function(req, res){
 mongoose.connect('mongodb://localhost/userdb');
 
 mongoose.model('users',userSchema);
+
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
+
     mongoose.model('users').find(function(err,users){
 
         if(err){
@@ -44,10 +46,9 @@ router.post('/',function(req,res){
     console.log(req.body.password);
 
     var newUser = new User();
-    newUser.username = req.body.name;
-    newUser.password = req.body.password;
-    console.log(newUser.username +" " + newUser.password);
-
+    newUser.local.username = req.body.name;
+    newUser.local.password = req.body.password;
+    console.log(newUser);
     newUser.save(function(err){
         if(err){
             return res.send(err);
@@ -56,4 +57,21 @@ router.post('/',function(req,res){
     })
 });
 
+router.put('/:id',function(req,resp){
+    var name = req.body.name;
+    var password = req.body.password;
+    var userModel = new User();
+    userModel.findById(req.id,function(err,user){
+        user.update({
+            name:name,
+            password:password
+        },function(err,userId){
+            if(err){
+                res.send("There was a problem, it couldn't update");
+            }else{
+                res.redirect('/users')
+            }
+        })
+    })
+});
 module.exports = router;
