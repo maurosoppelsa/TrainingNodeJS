@@ -3,14 +3,12 @@ var router = express.Router();
 var mongoose = require('mongoose'); //mongo connection
 var User = require('../model/user');
 var bodyParser = require('body-parser'); //parses information from POST
-methodOverride = require('method-override'); //used to manipulate POST
+var methodOverride = require('method-override'); //used to manipulate POST
+//var jwt = require('jsonwebtoken');
 
 var userSchema = new mongoose.Schema({
     name:{type:String},
-    LastName:{type:String},
-    email:{type:String},
-    dob:{type: Date, default: Date.now},
-    isAdmin:{type:Boolean}
+    createdAt:{type: Date, default: Date.now}
 });
 
 router.use(bodyParser.urlencoded({ extended: true }))
@@ -24,6 +22,7 @@ router.use(methodOverride(function(req, res){
 }));
 
 mongoose.connect('mongodb://localhost/userdb');
+
 
 mongoose.model('users',userSchema);
 
@@ -42,6 +41,7 @@ router.post('/',function(req,res){
     var newUser = new User();
     newUser.userInfo.username = req.body.name;
     newUser.userInfo.password = req.body.password;
+    newUser.userInfo.admin = req.body.admin;
     newUser.save(function(err){
         if(err){
             return res.send(err);
