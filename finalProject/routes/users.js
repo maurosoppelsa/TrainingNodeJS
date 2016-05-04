@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose'); //mongo connection
 var User = require('../model/user');
-bodyParser = require('body-parser'), //parses information from POST
+var bodyParser = require('body-parser'); //parses information from POST
 methodOverride = require('method-override'); //used to manipulate POST
 
 var userSchema = new mongoose.Schema({
@@ -29,9 +29,7 @@ mongoose.model('users',userSchema);
 
 /* GET users listing. */
 router.get('/', function(req, res) {
-
     mongoose.model('users').find(function(err,users){
-
         if(err){
             return console.log(err);
         }else{
@@ -41,14 +39,9 @@ router.get('/', function(req, res) {
 });
 
 router.post('/',function(req,res){
-
-    console.log(req.body.name);
-    console.log(req.body.password);
-
     var newUser = new User();
-    newUser.local.username = req.body.name;
-    newUser.local.password = req.body.password;
-    console.log(newUser);
+    newUser.userInfo.username = req.body.name;
+    newUser.userInfo.password = req.body.password;
     newUser.save(function(err){
         if(err){
             return res.send(err);
@@ -60,18 +53,44 @@ router.post('/',function(req,res){
 router.put('/:id',function(req,resp){
     var name = req.body.name;
     var password = req.body.password;
-    var userModel = new User();
-    userModel.findById(req.id,function(err,user){
-        user.update({
-            name:name,
-            password:password
-        },function(err,userId){
-            if(err){
-                res.send("There was a problem, it couldn't update");
-            }else{
-                res.redirect('/users')
-            }
-        })
+    mongoose.model('User').findById(req.params.id,function(err,user){
+        if(user!=null){
+            user.update({
+                userInfo:{
+                    username:name,
+                    password:password
+                }
+            },function(err,success){
+                if(err){
+                    resp.send("There was a problem, it couldn't update");
+                }else{
+                    resp.send({message:'update success'});
+                }
+            })
+        }else{
+            resp.send({message:"the user doesn't exist"});
+        }
     })
 });
+
+router.delete('/:id',function(req,resp){
+    mongoose.model('User').findById(req.params.id,function(err,user){
+        if(err){
+            resp.send({message:err});
+        }else{
+            if(user!=null){
+                user.remove(function(err,user){
+                    if(err){
+                        resp.send("there was an error " + err);
+                    } else{
+                        resp.send({message:"user deleted"});
+                    }
+                });
+            }else{
+                resp.send({message:"the user doesn't exist"})
+            }
+        }
+    });
+});
+
 module.exports = router;
