@@ -4,6 +4,7 @@ var mongoose = require('mongoose'); //mongo connection
 var User = require('../model/user');
 var bodyParser = require('body-parser'); //parses information from POST
 var methodOverride = require('method-override'); //used to manipulate POST
+var config = require('../config/config');
 //var jwt = require('jsonwebtoken');
 
 var userSchema = new mongoose.Schema({
@@ -21,8 +22,7 @@ router.use(methodOverride(function(req, res){
     }
 }));
 
-mongoose.connect('mongodb://localhost/userdb');
-
+mongoose.connect(config.database);
 
 mongoose.model('users',userSchema);
 
