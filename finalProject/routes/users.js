@@ -28,7 +28,7 @@ mongoose.model('users',userSchema);
 
 /* GET users listing. */
 router.get('/', function(req, res) {
-    mongoose.model('users').find(function(err,users){
+    User.find(function(err,users){
         if(err){
             return console.log(err);
         }else{
@@ -51,9 +51,10 @@ router.post('/',function(req,res){
 });
 
 router.put('/:id',function(req,resp){
-    var name = req.body.name;
+    var name = req.body.username;
+    console.log(req.body.username);
     var password = req.body.password;
-    mongoose.model('User').findById(req.params.id,function(err,user){
+    User.findById(req.params.id,function(err,user){
         if(user!=null){
             user.update({
                 userInfo:{
@@ -74,7 +75,7 @@ router.put('/:id',function(req,resp){
 });
 
 router.delete('/:id',function(req,resp){
-    mongoose.model('User').findById(req.params.id,function(err,user){
+    User.findById(req.params.id,function(err,user){
         if(err){
             resp.send({message:err});
         }else{
