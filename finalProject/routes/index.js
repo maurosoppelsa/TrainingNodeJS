@@ -23,8 +23,18 @@ router.post('/login',function(req,resp){
       if(!isMatch){
         resp.status(401).send('Invalid Password');
       }else{
-        var token = jwt.sign({username:req.body.username},config.secret);
-        resp.status(200).json(token);
+        // if user is found and password is right
+        // create a token
+        var token = jwt.sign({username:req.body.username}, config.secret, {
+          //expiresInMinutes: 1440 // expires in 24 hours
+        });
+
+        // return the information including token as JSON
+        resp.json({
+          success: true,
+          message: 'User validation success',
+          token: token
+        });
       }
     });
   });
