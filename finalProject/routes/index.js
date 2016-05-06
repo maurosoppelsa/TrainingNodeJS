@@ -20,7 +20,7 @@ router.post('/login',function(req,resp){
   User.findOne({'userInfo.username':req.body.username},function(err,user){
     user.comparePassword(req.body.password,function(err,isMatch){
       if(err) throw err;
-      if(isMatch){
+      if(!isMatch){
         resp.status(401).send('Invalid Password');
       }else{
         var token = jwt.sign({username:req.body.username},config.secret);
@@ -28,7 +28,6 @@ router.post('/login',function(req,resp){
       }
     });
   });
-
 });
 
 module.exports = router;

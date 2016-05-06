@@ -22,11 +22,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(expressJWT({secret:config.secret}).unless({path:['/login']}));
-
+app.use(expressJWT({secret:config.secret}).unless({path:['/login','/']}));
 
 app.use('/', routes);
-
 app.use('/users', users);
 
 // catch 404 and forward to error handler

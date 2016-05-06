@@ -6,9 +6,6 @@ var bodyParser = require('body-parser'); //parses information from POST
 var methodOverride = require('method-override'); //used to manipulate POST
 var config = require('../config/config');
 
-var userSchema = new mongoose.Schema({
-    name:{type:String},
-});
 
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(methodOverride(function(req, res){
@@ -21,8 +18,6 @@ router.use(methodOverride(function(req, res){
 }));
 
 mongoose.connect(config.database);
-
-mongoose.model('users',userSchema);
 
 /* GET users listing. */
 router.get('/', function(req, res) {
