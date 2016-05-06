@@ -30,7 +30,7 @@ router.get('/', function(req, res) {
     });
 });
 
-router.post('/',function(req,res){
+router.post('/',check_scopes(),function(req,res,next){
     var newUser = new User();
     User.findOne({'userInfo.username':req.body.username},function(err,user){
         if(err){
@@ -59,7 +59,7 @@ router.post('/',function(req,res){
     });
 });
 
-router.put('/:id',function(req,resp){
+router.put('/:id',check_scopes(),function(req,resp){
     var name = req.body.username;
     console.log(req.body.username);
     var password = req.body.password;
@@ -83,7 +83,7 @@ router.put('/:id',function(req,resp){
     })
 });
 
-router.delete('/:id',function(req,resp){
+router.delete('/:id',check_scopes(),function(req,resp){
     User.findById(req.params.id,function(err,user){
         if(err){
             resp.send({message:err});
@@ -103,4 +103,16 @@ router.delete('/:id',function(req,resp){
     });
 });
 
+function check_scopes() {
+    return function(req, res, next) {
+        User.findOne({'userInfo.username':req.token_payload.username},function(err,user){
+            if(err) throw err
+
+            if(user.userInfo.admin){
+                return next();
+            }
+            return res.send(401, {message:"permission denied"});
+        });
+    }
+}
 module.exports = router;

@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressJWT({secret:config.secret}).unless({path:['/login','/']}));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/users',expressJWT({secret: config.secret, userProperty: 'token_payload'}), users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

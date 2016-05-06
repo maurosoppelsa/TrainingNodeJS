@@ -25,14 +25,11 @@ router.post('/login',function(req,resp){
       }else{
         // if user is found and password is right
         // create a token
-        var token = jwt.sign({username:req.body.username}, config.secret, {
-          expiresIn: config.token_expiration // expires in 24 hours
-        });
-
+        var token = jwt.sign({username:req.body.username},config.secret,{ algorithm: 'HS256', expiresIn: config.token_expiration });
         // return the information including token as JSON
         resp.json({
           success: true,
-          message: 'the token will expire in '+config.token_expiration/60 + ' hours',
+          message: 'the token will expire in 24 hours',
           token: token
         });
       }
