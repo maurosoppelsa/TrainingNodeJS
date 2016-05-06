@@ -26,13 +26,13 @@ router.post('/login',function(req,resp){
         // if user is found and password is right
         // create a token
         var token = jwt.sign({username:req.body.username}, config.secret, {
-          //expiresInMinutes: 1440 // expires in 24 hours
+          expiresIn: config.token_expiration // expires in 24 hours
         });
 
         // return the information including token as JSON
         resp.json({
           success: true,
-          message: 'User validation success',
+          message: 'the token will expire in '+config.token_expiration/60 + ' hours',
           token: token
         });
       }
