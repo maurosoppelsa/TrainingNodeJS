@@ -32,15 +32,31 @@ router.get('/', function(req, res) {
 
 router.post('/',function(req,res){
     var newUser = new User();
-    newUser.userInfo.username = req.body.username;
-    newUser.userInfo.password = req.body.password;
-    newUser.userInfo.admin = req.body.admin;
-    newUser.save(function(err){
+    User.findOne({'userInfo.username':req.body.username},function(err,user){
         if(err){
-            return res.send(err);
+            throw err
         }
-        res.send({message:'user added'})
-    })
+        if(user==null || undefined){
+            newUser.userInfo.username = req.body.username;
+            newUser.userInfo.password = req.body.password;
+            newUser.userInfo.admin = req.body.admin;
+
+            if((newUser.userInfo.admin && newUser.userInfo.password)!=undefined){
+                newUser.save(function(err){
+                    if(err){
+                        return res.send(err);
+                    }
+                    res.send({message:'user added'})
+                });
+            }else{
+                res.status(400);
+                res.send({message:"incomplete information"});
+            }
+        }else{
+            res.status(400);
+            res.send({message:"the user already exist"});
+        }
+    });
 });
 
 router.put('/:id',function(req,resp){
