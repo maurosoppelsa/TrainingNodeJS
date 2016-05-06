@@ -5,11 +5,9 @@ var User = require('../model/user');
 var bodyParser = require('body-parser'); //parses information from POST
 var methodOverride = require('method-override'); //used to manipulate POST
 var config = require('../config/config');
-//var jwt = require('jsonwebtoken');
 
 var userSchema = new mongoose.Schema({
     name:{type:String},
-    createdAt:{type: Date, default: Date.now}
 });
 
 router.use(bodyParser.urlencoded({ extended: true }))
@@ -39,7 +37,7 @@ router.get('/', function(req, res) {
 
 router.post('/',function(req,res){
     var newUser = new User();
-    newUser.userInfo.username = req.body.name;
+    newUser.userInfo.username = req.body.username;
     newUser.userInfo.password = req.body.password;
     newUser.userInfo.admin = req.body.admin;
     newUser.save(function(err){

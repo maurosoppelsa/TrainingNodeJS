@@ -9,11 +9,12 @@ var userSchema = mongoose.Schema({
     userInfo:{
         username: String,
         password:String,
-        admin:Boolean
+        admin:Boolean,
+        createdAt:{type: Date, default: Date.now}
     }
 },{ versionKey: false });
 
-/*
+
 userSchema.pre('save', function(next) {
     var user = this;
 
@@ -34,7 +35,6 @@ userSchema.pre('save', function(next) {
         });
     });
 });
-*/
 
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
     console.log(candidatePassword);
